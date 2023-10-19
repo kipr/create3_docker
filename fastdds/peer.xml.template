@@ -1,0 +1,5 @@
+<locator>
+  <udpv4>
+    <address>{ip}</address>
+  </udpv4>
+</locator>
