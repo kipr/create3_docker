@@ -74,8 +74,9 @@ RUN echo 'export RMW_IMPLEMENTATION=rmw_fastrtps_cpp' >> $HOME/.bashrc
 RUN echo 'export FASTRTPS_DEFAULT_PROFILES_FILE=/home/fastdds.xml' >> $HOME/.bashrc
 
 ADD create3 /home/create3
-RUN cd /home/create3 && \
-    cmake -B build && \
+RUN source /opt/ros/humble/setup.bash \
+    cd /home/create3 && \
+    cmake -Bbuild -Dclient=OFF -Dcmder=OFF && \
     cmake --build build && \
     cmake --install build
 
