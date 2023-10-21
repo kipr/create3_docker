@@ -71,9 +71,17 @@ with open(SELF_PATH / "fastdds.xml", "w") as f:
 ensure_program_exists("docker")
 subprocess.run([
     "docker",
+    "buildx",
+    "create",
+    "--use"
+], cwd=SELF_PATH, check=True)
+subprocess.run([
+    "docker",
+    "buildx",
     "build",
     "--platform",
-    "linux/arm64",
+    "linux/arm64/v8",
+    "--load",
     "-t",
     args.tag if args.tag else "ros_wombat",
     "."
