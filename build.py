@@ -31,12 +31,6 @@ parser.add_argument(
     dest="peers"
 )
 
-parser.add_argument(
-  "--help",
-  action="store_true",
-  help="Show this help message"
-)
-
 args = parser.parse_args()
 
 if args.help:
