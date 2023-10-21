@@ -33,15 +33,9 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-if args.help:
-  parser.print_help()
-  exit(0)
-
 def ensure_program_exists(program):
     if which(program) is None:
         raise Exception(f"{program} not found")
-
-
 
 create3_clone_path = SELF_PATH / parse.urlsplit(CREATE3_REPOSITORY).path.split("/")[-1]
 
