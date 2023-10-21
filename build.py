@@ -19,7 +19,13 @@ parser.add_argument(
 )
 parser.add_argument(
     "--tag",
-    help="Tag the image with the given tag"
+    help="Tag the image with the given tag",
+    default="create3_docker"
+)
+parser.add_argument(
+    "--platform",
+    help="Build the image for the given platform",
+    default="linux/arm64/v8"
 )
 
 # Can be specified multiple times
@@ -80,10 +86,10 @@ subprocess.run([
     "buildx",
     "build",
     "--platform",
-    "linux/arm64/v8",
+    args.platform,
     "--load",
     "-t",
-    args.tag if args.tag else "ros_wombat",
+    args.tag,
     "."
 ], cwd=SELF_PATH, check=True)
 
