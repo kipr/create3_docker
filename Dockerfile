@@ -1,4 +1,4 @@
-FROM ubuntu:jammy
+FROM --platform=linux/arm64 ubuntu:jammy
 
 # setup timezone
 RUN echo 'Etc/UTC' > /etc/timezone && \
