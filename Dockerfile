@@ -76,7 +76,7 @@ RUN echo 'export FASTRTPS_DEFAULT_PROFILES_FILE=/home/fastdds.xml' >> $HOME/.bas
 ADD create3 /home/create3
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-RUN source /opt/ros/humble/setup.bash \
+RUN source /opt/ros/humble/setup.bash && \
     cd /home/create3 && \
     cmake -Bbuild -Dclient=OFF -Dcmder=OFF && \
     cmake --build build && \
