@@ -69,5 +69,13 @@ with open(SELF_PATH / "fastdds.xml", "w") as f:
 
 # Create the image
 ensure_program_exists("docker")
-subprocess.run(["docker", "build", "-t", args.tag if args.tag else "ros_wombat", "."], cwd=SELF_PATH, check=True)
+subprocess.run([
+    "docker",
+    "build",
+    "--platform",
+    "linux/arm64",
+    "-t",
+    args.tag if args.tag else "ros_wombat",
+    "."
+], cwd=SELF_PATH, check=True)
 
