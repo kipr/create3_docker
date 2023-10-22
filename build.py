@@ -19,7 +19,7 @@ parser.add_argument(
 parser.add_argument(
     "--tag",
     help="Tag the image with the given tag",
-    default="create3_docker"
+    default="kipradmin/create3_docker:latest"
 )
 
 parser.add_argument(
