@@ -34,6 +34,14 @@ parser.add_argument(
     help="Push the image to the docker hub"
 )
 
+# Number of parallel builds
+parser.add_argument(
+    "--parallel",
+    type=int,
+    default=8,
+    help="Number of parallel builds"
+)
+
 args = parser.parse_args()
 
 def ensure_program_exists(program):
@@ -75,6 +83,8 @@ subprocess.run([
     "--push" if args.push else "--load",
     "-t",
     args.tag,
+    "--parallel",
+    str(args.parallel),
     "."
 ], cwd=SELF_PATH, check=True)
 
