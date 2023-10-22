@@ -69,7 +69,7 @@ RUN apt-get update && apt-get install -y \
     python3 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY fastdds /root
+COPY fastdds /root/fastdds
 
 RUN echo 'export RMW_IMPLEMENTATION=rmw_fastrtps_cpp' >> $HOME/.bashrc
 
