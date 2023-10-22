@@ -84,10 +84,17 @@ dockerfile = dockerfile.format(parallel=args.parallel)
 with open(SELF_PATH / "Dockerfile", "w") as f:
     f.write(dockerfile)
 
+build_cache_dir = SELF_PATH / ".build_cache"
+build_cache_dir.mkdir(exists_ok=True)
+
 subprocess.run([
     "docker",
     "buildx",
     "build",
+    "--cache-from",
+    f"type=local,src={build_cache_dir.as_posix()}",
+    "--cache-to",
+    f"type=local,dest={build_cache_dir.as_posix()}",
     "--platform",
     args.platform,
     "--push" if args.push else "--load",
