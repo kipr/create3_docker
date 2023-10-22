@@ -83,5 +83,6 @@ RUN source /opt/ros/humble/setup.bash && \
     cmake --build build --parallel 8 && \
     cmake --install build
 
-# Run run.py
-CMD ["bash", "-c", "source /opt/ros/humble/setup.bash && python3 /run.py"]
+# Run run.py as ENTRYPOINT
+ENTRYPOINT ["bash", "-c", "source /opt/ros/humble/setup.bash && python3 /run.py"]
+
