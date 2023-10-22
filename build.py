@@ -74,6 +74,16 @@ subprocess.run([
     "--use"
 ], cwd=SELF_PATH, check=True)
 
+# Open Dockerfile.in and format {parallel}
+with open(SELF_PATH / "Dockerfile.in", "r") as f:
+    dockerfile = f.read()
+
+dockerfile = dockerfile.format(parallel=args.parallel)
+
+# Write Dockerfile
+with open(SELF_PATH / "Dockerfile", "w") as f:
+    f.write(dockerfile)
+
 subprocess.run([
     "docker",
     "buildx",
@@ -83,8 +93,6 @@ subprocess.run([
     "--push" if args.push else "--load",
     "-t",
     args.tag,
-    "--parallel",
-    str(args.parallel),
     "."
 ], cwd=SELF_PATH, check=True)
 
