@@ -23,17 +23,21 @@ fastdds_config = fastdds_template.format(ip=ip)
 with open(FASTDDS_FINAL_PATH, "w") as f:
   f.write(fastdds_config)
 
+
+
 env = {
   "FASTDDS_DEFAULT_PROFILES_FILE": FASTDDS_FINAL_PATH.as_posix(),
-  "LD_LIBRARY_PATH": "/opt/ros/humble/lib"
 }
+
+# Add environ
+env.update(environ)
 
 fastdds = which("fastdds")
 # Run "fastdds discovery -i 0 -l {ip} -p 11811" in a subprocess asynchronously
 subprocess.Popen(
-  ["bash", "-c", f"{fastdds} discovery -i 0 -l {ip} -p 11811"],
+  ["bash", "-c", f"source /opt/ros/humble/setup.bash && {fastdds} discovery -i 0 -l {ip} -p 11811"],
   env=env
 )
 
 # Launch the create3_server
-subprocess.run([CREATE3_SERVER], check=True, env=env)
+subprocess.run(["bash", "-c", f"source /opt/ros/humble/setup.bash && {CREATE3_SERVER.as_posix()}"], check=True, env=env)
