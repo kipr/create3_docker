@@ -8,8 +8,6 @@ from urllib import parse
 SELF_PATH = Path(__file__).parent.resolve()
 
 CREATE3_REPOSITORY = "https://github.com/kipr/create3"
-FASTDDS_TEMPLATE_PATH = SELF_PATH / "fastdds" / "fastdds.xml.template"
-PEER_TEMPLATE_PATH = SELF_PATH / "fastdds" / "peer.xml.template"
 
 parser = argparse.ArgumentParser(description="Build the ROS wombat image")
 parser.add_argument(
@@ -17,24 +15,23 @@ parser.add_argument(
     action="store_true",
     help="Don't update the local create3 repository by pulling"
 )
+
 parser.add_argument(
     "--tag",
     help="Tag the image with the given tag",
     default="create3_docker"
 )
+
 parser.add_argument(
     "--platform",
     help="Build the image for the given platform",
     default="linux/arm64/v8"
 )
 
-# Can be specified multiple times
 parser.add_argument(
-    "--peer",
-    help="Add a known peer by IP address",
-    action="append",
-    default=[],
-    dest="peers"
+    "--push",
+    action="store_true",
+    help="Push the image to the docker hub"
 )
 
 args = parser.parse_args()
@@ -59,19 +56,6 @@ if not args.no_update:
     
     subprocess.run(["git", "pull"], cwd=create3_clone_path, check=True)
 
-# Create the fastdds config file from template
-with open(FASTDDS_TEMPLATE_PATH, "r") as f:
-    fastdds_template = f.read()
-
-with open(PEER_TEMPLATE_PATH, "r") as f:
-    peer_template = f.read()
-
-peers = "\n".join([peer_template.format(ip=peer) for peer in args.peers])
-
-fastdds_config = fastdds_template.format(peers=peers)
-
-with open(SELF_PATH / "fastdds.xml", "w") as f:
-    f.write(fastdds_config)
 
 # Create the image
 ensure_program_exists("docker")
@@ -88,7 +72,7 @@ subprocess.run([
     "build",
     "--platform",
     args.platform,
-    "--load",
+    "--push" if args.push else "--load",
     "-t",
     args.tag,
     "."

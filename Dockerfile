@@ -65,15 +65,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Common Utilities
 RUN apt-get update && apt-get install -y \
     iputils-ping \
-    nano \
+    vim \
+    python3 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY fastdds.xml /home/fastdds.xml
+COPY fastdds /home
 
 RUN echo 'export RMW_IMPLEMENTATION=rmw_fastrtps_cpp' >> $HOME/.bashrc
-RUN echo 'export FASTRTPS_DEFAULT_PROFILES_FILE=/home/fastdds.xml' >> $HOME/.bashrc
 
 ADD create3 /home/create3
+ADD run.py /run.py
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN source /opt/ros/humble/setup.bash && \
@@ -82,5 +83,5 @@ RUN source /opt/ros/humble/setup.bash && \
     cmake --build build --parallel 8 && \
     cmake --install build
 
-ENTRYPOINT ["/ros_entrypoint.sh"]
-CMD ["bash"]
+# Run run.py
+CMD ["bash", "-c", "source /opt/ros/humble/setup.bash && python3 /run.py"]
