@@ -2,6 +2,7 @@ from pathlib import Path
 import argparse
 import subprocess
 from os import environ
+from shutil import which
 
 # Get home path
 HOME_PATH = Path.home()
@@ -23,13 +24,14 @@ with open(FASTDDS_FINAL_PATH, "w") as f:
   f.write(fastdds_config)
 
 env = {
-  "FASTDDS_DEFAULT_PROFILES_FILE": FASTDDS_FINAL_PATH.as_posix()
+  "FASTDDS_DEFAULT_PROFILES_FILE": FASTDDS_FINAL_PATH.as_posix(),
+  "LD_LIBRARY_PATH": "/opt/ros/humble/lib"
 }
 
-
+fastdds = which("fastdds")
 # Run "fastdds discovery -i 0 -l {ip} -p 11811" in a subprocess asynchronously
 subprocess.Popen(
-  ["fastdds", "discovery", "-i", "0", "-l", ip, "-p", "11811"],
+  ["bash", "-c", f"{fastdds} discovery -i 0 -l {ip} -p 11811"],
   env=env
 )
 
