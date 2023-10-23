@@ -26,6 +26,7 @@ with open(FASTDDS_FINAL_PATH, "w") as f:
 
 
 env = {
+  "RMW_IMPLEMENTATION": "rmw_fastrtps_cpp",
   "FASTDDS_DEFAULT_PROFILES_FILE": FASTDDS_FINAL_PATH.as_posix(),
 }
 
