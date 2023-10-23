@@ -85,5 +85,5 @@ RUN source /opt/ros/humble/setup.bash && \
     cmake --install build
 
 # Run run.py as ENTRYPOINT
-ENTRYPOINT ["bash", "-c", "source /opt/ros/humble/setup.bash && python3 /run.py"]
+ENTRYPOINT ["bash", "-c", "source /opt/ros/humble/setup.bash && python3 /run.py &"]
 
