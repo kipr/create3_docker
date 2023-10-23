@@ -35,11 +35,11 @@ env.update(environ)
 
 fastdds = which("fastdds")
 # Run "fastdds discovery -i 0 -l {ip} -p 11811" in a subprocess asynchronously
-subprocess.Popen(
+subprocess.run(
   ["bash", "-c", f"source /opt/ros/humble/setup.bash && {fastdds} discovery -i 0 -l {ip} -p 11811"],
   env=env
 )
 
 # Launch the create3_server
-subprocess.run(
+subprocess.Popen(
   ["bash", "-c", f"source /opt/ros/humble/setup.bash && {CREATE3_SERVER.as_posix()}"],check=True, env=env)
