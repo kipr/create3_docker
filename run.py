@@ -41,5 +41,5 @@ subprocess.Popen(
 )
 
 # Launch the create3_server
-subprocess.Popen(
-  ["bash", "-c", f"source /opt/ros/humble/setup.bash && {CREATE3_SERVER.as_posix()}"], env=env)
+subprocess.run(
+  ["bash", "-c", f"source /opt/ros/humble/setup.bash && {CREATE3_SERVER.as_posix()}"],check=True, env=env)
