@@ -55,7 +55,7 @@ if not create3_clone_path.exists():
     # Return error if no git
     ensure_program_exists("git")
     
-    subprocess.run(["git", "clone", "--recurse-submodules", CREATE3_REPOSITORY], cwd=SELF_PATH, check=True)
+    subprocess.run(["git", "clone", "--recurse-submodules", CREATE3_REPOSITORY, "-b", "lightRingOnly"], cwd=SELF_PATH, check=True)
 
 # Update the create3 repository
 if not args.no_update:

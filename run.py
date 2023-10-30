@@ -32,6 +32,10 @@ env = {
 
 # Add environ
 env.update(environ)
+subprocess.Popen(
+  ["bash", "-c", "env"],
+  env=env
+)
 
 fastdds = which("fastdds")
 # Run "fastdds discovery -i 0 -l {ip} -p 11811" in a subprocess asynchronously
@@ -42,6 +46,12 @@ subprocess.Popen(
 
 # Launch the create3_server
 subprocess.Popen(
-  ["bash", "-c", f"source /opt/ros/humble/setup.bash && {CREATE3_SERVER.as_posix()}"],
+  ["bash", "-c", f"source /opt/ros/humble/setup.bash && sleep 5 && {CREATE3_SERVER.as_posix()}"],
+  env=env
+)
+
+# Check ROS Topic List
+subprocess.Popen(
+  ["bash", "-c", "source /opt/ros/humble/setup.bash && sleep 10 && ros2 topic list"],
   env=env
 )
