@@ -71,8 +71,6 @@ RUN apt-get update && apt-get install -y \
 
 COPY fastdds /root/fastdds
 
-RUN echo 'export RMW_IMPLEMENTATION=rmw_fastrtps_cpp' >> $HOME/.bashrc
-RUN echo 'export FASTRTPS_DEFAULT_PROFILES_FILE=/root/fastdds.xml' >> $HOME/.bashrc
 
 ADD create3 /root/create3
 ADD run.py /run.py
@@ -85,5 +83,5 @@ RUN source /opt/ros/humble/setup.bash && \
     cmake --install build
 
 # Run run.py as ENTRYPOINT
-ENTRYPOINT ["bash", "-c", "source /opt/ros/humble/setup.bash && python3 /run.py && sleep infinity"]
+ENTRYPOINT ["bash", "-c", "/ros_entrypoint.sh"]
 

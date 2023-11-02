@@ -2,8 +2,10 @@
 set -e
 
 # setup ros2 environment
-source "/opt/ros/$ROS_DISTRO/setup.bash" --
+source "/opt/ros/humble/setup.bash" --
 
-fastdds discovery -i 0 -l 172.17.0.1 -p 11811 &
+python3 /run.py &
+
+sleep infinity
 
 exec "$@"
