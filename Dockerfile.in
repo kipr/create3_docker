@@ -72,7 +72,7 @@ RUN apt-get update && apt-get install -y \
 COPY fastdds /root/fastdds
 
 
-ADD create3 /root/create3
+ADD {create3_path} /root/create3
 ADD run.py /run.py
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh

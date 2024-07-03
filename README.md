@@ -14,3 +14,4 @@ python build.py --tag kipradmin/create3_docker:1.0.0
   - `--tag` (default: `kipradmin/create3_docker:latest`) - Tag the image with a custom name
   - `--platform` (default: `linux/arm64/v8`) - Build the image for a specific platform (e.g. `amd64`)
   - `--parallel` (default: `8`) - Build the create3 repo in parallel using `n` threads
+  - `--path` (default: `create3`) - Path to the create3 repo. Defaults to `create3` in the current directory
