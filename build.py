@@ -90,7 +90,11 @@ subprocess.run([
 with open(SELF_PATH / "Dockerfile.in", "r") as f:
     dockerfile = f.read()
 
-dockerfile = dockerfile.format(parallel=args.parallel)
+create3_path_from_build_context = create3_clone_path.relative_to(SELF_PATH).as_posix()
+dockerfile = dockerfile.format(
+    parallel=args.parallel,
+    create3_path=create3_path_from_build_context
+)
 
 # Write Dockerfile
 with open(SELF_PATH / "Dockerfile", "w") as f:
