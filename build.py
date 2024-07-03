@@ -2,7 +2,6 @@ import argparse
 import subprocess
 from shutil import which
 from pathlib import Path
-from urllib import parse
 
 # Get path of this file
 SELF_PATH = Path(__file__).parent.resolve()
@@ -42,35 +41,41 @@ parser.add_argument(
     help="Number of parallel builds"
 )
 
+# Path to create3 repository
+parser.add_argument(
+    "--path",
+    type=str,
+    default=str(SELF_PATH / "create3"),
+    help="Path where the create3 repository is located or will be cloned"
+)
+
 args = parser.parse_args()
+
 
 def ensure_program_exists(program):
     if which(program) is None:
         raise Exception(f"{program} not found")
 
-create3_clone_path = SELF_PATH / parse.urlsplit(CREATE3_REPOSITORY).path.split("/")[-1]
+create3_clone_path = Path(args.path).resolve()
 
 # Clone the create3 repository if it doesn't already exist
 if not create3_clone_path.exists():
     # Return error if no git
     ensure_program_exists("git")
-    
-    subprocess.run(["git", "clone", "--recurse-submodules", CREATE3_REPOSITORY], cwd=SELF_PATH, check=True)
+    subprocess.run(["git", "clone", "--recurse-submodules", CREATE3_REPOSITORY, create3_clone_path.as_posix()],
+                   cwd=SELF_PATH, check=True)
 else:
     # Pull most recent changes
     subprocess.run(["rm", "-rf", create3_clone_path], cwd=SELF_PATH, check=True)
-    
     ensure_program_exists("git")
-    
-    subprocess.run(["git", "clone", "--recurse-submodules", CREATE3_REPOSITORY], cwd=SELF_PATH, check=True)
+    subprocess.run(["git", "clone", "--recurse-submodules", CREATE3_REPOSITORY, create3_clone_path.as_posix()],
+                   cwd=SELF_PATH, check=True)
 
 # Update the create3 repository
 if not args.no_update:
     # Return error if no git
     ensure_program_exists("git")
-    
     subprocess.run(["git", "pull"], cwd=create3_clone_path, check=True)
-
 
 # Create the image
 ensure_program_exists("docker")
@@ -110,4 +115,3 @@ subprocess.run([
     args.tag,
     "."
 ], cwd=SELF_PATH, check=True)
-
